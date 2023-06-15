@@ -1,4 +1,5 @@
 .\objects\main.o: main.c
+.\objects\main.o: app.h
 .\objects\main.o: button.h
 .\objects\main.o: services.h
 .\objects\main.o: port.h

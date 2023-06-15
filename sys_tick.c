@@ -2,6 +2,13 @@
 #include "sys_tick.h" 
 
 
+/***********************************
+*										CALLBACKS
+***********************************/
+
+static  void(*g_SYS_TICK_INT_fptr)(void) = NULL;
+
+/**********************************************/
 enu_Sys_Tick_error_t SYS_TICK_ENABLE(enu_Sys_Tick_Source_t enu_a_Sys_Tick_Source,enu_Sys_Tick_INT_t enu_a_Sys_Tick_INT,uint32_t u32_a_time_ms)
 {
 		if( enu_a_Sys_Tick_Source!=	INVALID_SOURCE)
@@ -81,4 +88,34 @@ void SYS_TICK_Disable(void)
 {
 
 	clear_bit(STCTRL,ENABLE);
+}
+
+/**************************************************************************/
+enu_Sys_Tick_error_t SYS_TICK_Set_CallBack(void(*a_fptr)(void))
+{
+		if(a_fptr!=NULL)
+		{
+			g_SYS_TICK_INT_fptr=a_fptr;
+		
+		}
+		else
+		{
+		/*HANDLE ERRORS*/
+		}
+
+}
+/*****************************************************************************/
+void SysTick_Handler(void)
+{
+	if(g_SYS_TICK_INT_fptr!=NULL)
+	{
+	
+		g_SYS_TICK_INT_fptr();
+	}
+	else
+	{
+	/*error handling*/
+	}
+
+
 }
